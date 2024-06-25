@@ -1,6 +1,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# Ruby2.5 からRuby自体に組み込まれるようになったが、gem パッケージの仕組みを使って
+# 開発しているプロジェクトでどのgem のどのバージョンを使用しているのかを明示する"bundle"という仕組みが別途必要だった。
+
+# XXXバンドラーと言われると、"bundle"を利用したコマンド動作のことを指す場合が多い。
+# 本ファイルに記載した内容の依存関係などを解決した結果をGemfile.lockとして保存する。
 ruby '3.0.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
