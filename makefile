@@ -41,4 +41,4 @@ admin:
 	docker-compose run --rm app bundle exec rails generate active_admin:resource $(model)
 
 credentials:
-	docker-compose run --rm -e EDITOR=vim app bin/rails credentials:edit --environment $(env)
+	docker-compose run --rm -e EDITOR="vim" bin/rails credentials:edit --environment $(env)
