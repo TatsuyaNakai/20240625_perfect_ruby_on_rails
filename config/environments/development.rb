@@ -76,4 +76,9 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.middleware.use UpcaseMiddleware
+
+  # 開発環境でDBを複数構成で、レプリカとして利用する
+  config.active_record.database_selector = { delay: 2.seconds }
+  config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
+  config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 end

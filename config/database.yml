@@ -15,17 +15,25 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password: password
-  host: db
 
 development:
-  <<: *default
-  database: myapp_development
+  primary:
+    <<: *default
+    host: primary_db
+    database: myapp_development
+  sub:
+    <<: *default
+    host: sub_db
+    database: myapp_development_sub
+    migrations_paths: db/sub_migrate
+    replica: true
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  host: primary_db
   database: myapp_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -50,6 +58,7 @@ test:
 #
 production:
   <<: *default
+  host: primary_db
   database: myapp_production
   username: myapp
   password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>

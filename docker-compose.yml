@@ -7,18 +7,33 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      - primary_db
+      - sub_db
     tty: true
     stdin_open: true
 
-  db:
+  primary_db:
     image: mysql:8.0
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --default-authentication-plugin=mysql_native_password
     environment:
+      MYSQL_DATABASE: myapp_development
       MYSQL_ROOT_PASSWORD: password
     ports:
       - '3306:3306'
     volumes:
-      - ./tmp/db:/var/lib/mysql:delegated
+      - ./tmp/primary_db:/var/lib/mysql:delegated
+    cap_add:
+      - SYS_NICE
+
+  sub_db:
+    image: mysql:8.0
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: myapp_development_sub
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./tmp/sub_db:/var/lib/mysql:delegated
     cap_add:
       - SYS_NICE
