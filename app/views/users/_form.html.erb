@@ -17,6 +17,8 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <!-- data: { disable_with: xxx }とすることで、送信時に指定した文言となり、押下できないようになります。 -->
+    <!-- data: { confirm: xxx }とすることで、送信前にブラウザのダイアログを表示できます。 -->
+    <%= form.submit data: { disable_with: '送信中' } %>
   </div>
 <% end %>
