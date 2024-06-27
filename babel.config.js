@@ -1,3 +1,5 @@
+// babelの細かい設定を行いたい場合は以下で設定をします。
+
 module.exports = function(api) {
   var validEnv = ['development', 'test', 'production']
   var currentEnv = api.env()

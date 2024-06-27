@@ -11,3 +11,6 @@ import "channels"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+import '../custom/hello_erb.js.erb';
+import '../custom/test_jquery.js';
