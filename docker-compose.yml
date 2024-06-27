@@ -13,6 +13,18 @@ services:
       - db
     tty: true
     stdin_open: true
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/myapp:delegated
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis
   
   webpacker:
     build: .
