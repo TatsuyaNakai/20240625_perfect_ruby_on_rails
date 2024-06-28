@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  skip_before_action :authenticate, only: %i[show]
+
   def new
     @event = current_user.events.build
   end
@@ -11,6 +13,10 @@ class EventsController < ApplicationController
     else
       respond_to { |format| format.js }
     end
+  end
+
+  def show
+    @event = Event.find(params[:id])
   end
 
   private

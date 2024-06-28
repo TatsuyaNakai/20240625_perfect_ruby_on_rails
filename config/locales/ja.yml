@@ -9,3 +9,8 @@ ja:
         started_at: 開始時間
         ended_at: 終了時間
         content: 内容
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
+      long: "%Y年%m月%d日(%a) %H時%M分"
+      short: "%y/%m/%d %H:%M"
