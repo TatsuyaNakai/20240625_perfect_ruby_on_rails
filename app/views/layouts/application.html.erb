@@ -11,10 +11,25 @@
   <body>
     <header class="navbar navbar-expand-sm navbar-light bg-light">
       <div class="container">
-        <%= link_to 'event', root_path, class: 'navbar-brand' %>
+        <%= link_to 'demo App', root_path, class: 'navbar-brand' %>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <% if logged_in? %>
+              <%= link_to 'ログアウト', '/logout', class: 'navbar-link', method: :delete %>
+            <% else %>
+              <%= link_to 'Githubでログイン', '/auth/github', class: 'navbar-link', method: :post %>
+            <% end %>
+          </li>
+        </ul>
       </div>
     </header>
     <div class="container">
+      <% if flash.notice %>
+        <div class="alert alert-success"><%= flash.notice %></div>
+      <% end %>
+      <% if flash.alert %>
+        <div class="alert alert-danger"><%= flash.alert %></div>
+      <% end %>
       <%= yield %>
     </div>
   </body>
