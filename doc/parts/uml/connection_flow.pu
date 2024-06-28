@@ -1,0 +1,52 @@
+@startuml
+actor User
+participant "Client" as JS
+participant "Server" as Rails
+
+User -> JS: Access page
+
+note over JS, Rails: HTTP
+JS -> Rails: Request page
+JS <-- Rails: Response page
+
+note over JS, Rails: WebSocket start
+
+JS -> JS: createConsumer()
+
+alt WebSocket already established
+  ... Use existing WebSocket connection ...
+else
+  JS -> Rails: request WebSocket
+  Rails -> Rails: create Connection
+  opt WebSocket connection successful
+    JS <-- Rails: connection open
+    ... WebSocket connection is established ...
+  end
+end
+
+note over JS, Rails: Subscription process
+JS -> Rails: consumer.subscriptions.create("XXXChannel", { initialized() })
+Rails -> Rails: XXXChannel#subscribed()
+alt XXXChannel#subscribed() successful
+    JS -> JS: consumer.subscriptions.create("XXXChannel", { connected() })
+else XXXChannel#subscribed() rejected
+    JS -> JS: consumer.subscriptions.create("XXXChannel", { rejected() })
+end
+
+note over JS, Rails: WebSocket event
+JS -> Rails: consumer.subscriptions.create("XXXChannel", { action: this.perform(...)) }
+Rails -> Rails: XXXChannel#action()
+Rails -> JS: ActionCable.server.broadcast('XXX_channel', { ... })
+JS -> JS: consumer.subscriptions.create("XXXChannel", { received() })
+
+note over User, Rails: WebSocket end
+User -> JS: Reload or Close page
+JS -> Rails: Close WebSocket connection
+Rails -> Rails: XXXChannel#unsubscribed()
+
+note over User, Rails: WebSocket end (except reload or close page)
+JS -> Rails: Close WebSocket connection
+Rails -> Rails: Connection cleanup
+JS -> JS: consumer.subscriptions.create("XXXChannel", { disconnected() })
+
+@enduml
