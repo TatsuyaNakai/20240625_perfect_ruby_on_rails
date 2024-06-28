@@ -18,6 +18,15 @@ class Event < ApplicationRecord
 
   validate :validate_started_at, if: -> { started_at && ended_at }
 
+  # メソッド
+  def created_by?(user)
+    return false unless user
+
+    owner_id == user.id
+  end
+
+
+  # メソッド(Private)
   private
 
   def validate_started_at
