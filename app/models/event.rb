@@ -1,6 +1,7 @@
 class Event < ApplicationRecord
   # 関連
   belongs_to :owner, optional: true, class_name: 'User', foreign_key: 'owner_id'
+  has_many :tickets, dependent: :destroy
 
   # バリデーション
   validates :name, length: { maximum: 50 },

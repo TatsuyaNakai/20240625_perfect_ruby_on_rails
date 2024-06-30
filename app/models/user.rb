@@ -1,11 +1,13 @@
 class User < ApplicationRecord
   # 関連
   has_many :events, foreign_key: 'owner_id'
+  has_many :tickets
 
+  # クラスメソッド
   def self.find_or_create_from_auth_hash!(auth_hash)
     provider = auth_hash[:provider]
     uid = auth_hash[:uid]
-    nickname = auth_hash[:info][:name]
+    nickname = auth_hash[:info][:nickname]
     image_url = auth_hash[:info][:image]
 
     User.find_or_create_by!(provider: provider, uid: uid) do |user|
@@ -13,4 +15,9 @@ class User < ApplicationRecord
       user.image_url = image_url
     end
   end
+
+  # メソッド
+  # def participate_to?(event)
+  #   self.tickets.pluck(:event_id).include?(event.id)
+  # end
 end
