@@ -1,7 +1,11 @@
 class User < ApplicationRecord
+  # フック
+  before_destroy :check_all_events_finished
+
   # 関連
-  has_many :events, foreign_key: 'owner_id'
-  has_many :tickets
+  has_many :events, foreign_key: 'owner_id', dependent: :nullify
+  has_many :tickets, dependent: :nullify
+  has_many :participating_events, through: :tickets, source: :event
 
   # クラスメソッド
   def self.find_or_create_from_auth_hash!(auth_hash)
@@ -16,8 +20,19 @@ class User < ApplicationRecord
     end
   end
 
-  # メソッド
-  # def participate_to?(event)
-  #   self.tickets.pluck(:event_id).include?(event.id)
-  # end
+  # メソッド(Private)
+
+  private
+
+  def check_all_events_finished
+    if self.events.where(ended_at: Time.zone.today.beginning_of_day..).present?
+      errors.add(:base, '公開中の未終了イベントが存在します')
+    end
+
+    if self.participating_events.where(started_at: ..Time.zone.today.end_of_day, ended_at: Time.zone.now..).present?
+      errors.add(:base, '未終了の参加イベントが存在します')
+    end
+
+    throw :abort unless errors.empty?
+  end
 end

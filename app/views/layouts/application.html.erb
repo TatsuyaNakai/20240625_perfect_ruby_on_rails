@@ -16,13 +16,18 @@
           <li class="nav-item">
             <%= link_to 'イベント作成', new_event_path, class: 'nav-link' %>
           </li>
-          <li class="nav-item">
-            <% if logged_in? %>
+          <% if logged_in? %>
+            <li class="nav-item">
+              <%= link_to '退会', new_retirement_path, class: 'nav-link' %>
+            </li>
+            <li class="nav-item">
               <%= link_to 'ログアウト', '/logout', class: 'nav-link', method: :delete %>
-            <% else %>
+            </li>
+          <% else %>
+            <li class="nav-item">
               <%= link_to 'Githubでログイン', '/auth/github', class: 'nav-link', method: :post %>
-            <% end %>
-          </li>
+            </li>
+          <% end %>
         </ul>
       </div>
     </header>

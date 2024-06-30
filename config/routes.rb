@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   resources :events do
     resources :tickets
   end
+
+  resources :retirements, only: %i[new destroy]
 end
