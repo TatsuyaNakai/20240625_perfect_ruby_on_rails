@@ -2,7 +2,8 @@ build:
 	docker-compose build
 
 up:
-	docker-compose up
+	docker-compose up -d
+	docker attach 20240625_perfect_ruby_on_rails-app-1
 
 stop:
 	docker-compose stop
