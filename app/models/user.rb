@@ -1,11 +1,11 @@
 class User < ApplicationRecord
-  # フック
-  before_destroy :check_all_events_finished
-
   # 関連
   has_many :events, foreign_key: 'owner_id', dependent: :nullify
   has_many :tickets, dependent: :nullify
   has_many :participating_events, through: :tickets, source: :event
+
+  # フック
+  before_destroy :check_all_events_finished, prepend: true
 
   # クラスメソッド
   def self.find_or_create_from_auth_hash!(auth_hash)
