@@ -1,5 +1,24 @@
 require "test_helper"
+require 'capybara/rails'
+require 'capybara/minitest'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
+  Capybara.register_driver :remote_chrome do |app|
+    url = 'http://selenium_chrome:4444/wd/hub'
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--window-size=1400,1400')
+    options.add_argument('--single-process')
+    options.add_argument('--disable-extensions')
+    Capybara::Selenium::Driver.new(app, browser: :remote, url: url, options: options)
+  end
+
+  driven_by :remote_chrome
+
+  Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
+  Capybara.server_port = 3000
+  Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+  Capybara.default_max_wait_time = 10
 end

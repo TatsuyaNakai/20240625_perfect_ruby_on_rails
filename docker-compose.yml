@@ -5,15 +5,27 @@ services:
     volumes:
       - .:/myapp:delegated
       - bundle:/usr/local/bundle
+    networks:
+      - app_network
     ports:
       - "3000:3000"
     environment:
       WEBPACKER_DEV_SERVER_HOST: webpacker
     depends_on:
       - db
+      - selenium_chrome
     tty: true
     stdin_open: true
-  
+
+  selenium_chrome:
+    image: selenium/standalone-chrome-debug
+    shm_size: 2gb
+    networks:
+      - app_network
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+
   webpacker:
     build: .
     volumes:
@@ -22,6 +34,8 @@ services:
     command: ./bin/webpack-dev-server
     environment:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    networks:
+      - app_network
     ports:
       - "3035:3035"
 
@@ -31,12 +45,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
       TZ: Asia/Tokyo
+    networks:
+      - app_network
     ports:
       - '3306:3306'
     volumes:
       - ./tmp/db:/var/lib/mysql:delegated
     cap_add:
       - SYS_NICE
+
+networks:
+  app_network:
+    driver: bridge
 
 volumes:
   db:
