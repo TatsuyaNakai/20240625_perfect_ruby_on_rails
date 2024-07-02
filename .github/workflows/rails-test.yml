@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Check RAILS_MASTER_KEY
-        run: echo $RAILS_MASTER_KEY
+        run: echo ${{ secrets.MASTER_KEY }}
         env:
           RAILS_MASTER_KEY: ${{ secrets.MASTER_KEY }}
 
@@ -48,8 +48,8 @@ jobs:
       # Add or replace test runners here
       - name: Install dependencies
         run: |
-          bundle install
-          yarn install
+          bundle install --path vendor/bundle
+          yarn install --check-files
 
       # Add or replace database setup steps here
       - name: Set up database schema
