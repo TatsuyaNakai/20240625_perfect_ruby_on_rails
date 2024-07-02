@@ -32,8 +32,8 @@ erd:
 routes:
 	docker-compose run --rm app bundle exec rails routes
 
-rspec:
-	docker-compose run --rm app bundle exec rspec $(path)
+minitest:
+	docker-compose run --rm app bin/rails test --verbose $(path)
 
 bash:
 	docker-compose run --rm app bash

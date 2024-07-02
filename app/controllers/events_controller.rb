@@ -9,7 +9,7 @@ class EventsController < ApplicationController
     @event = current_user.events.build(event_params)
 
     if @event.save
-      redirect_to event_path(@event), notile: 'イベントを作成しました'
+      redirect_to event_path(@event), notice: 'イベントを作成しました'
     else
       respond_to { |format| format.js }
     end
@@ -29,7 +29,7 @@ class EventsController < ApplicationController
     @event = current_user.events.find(params[:id])
 
     if @event.update(event_params)
-      redirect_to event_path(@event), notile: 'イベントを更新しました'
+      redirect_to event_path(@event), notice: 'イベントを更新しました'
     else
       respond_to { |format| format.js }
     end
