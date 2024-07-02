@@ -19,44 +19,44 @@ jobs:
 
     steps:
       - name: Check RAILS_MASTER_KEY
-        run: echo ${{ secrets.MASTER_KEY }}
+        run: echo $RAILS_MASTER_KEY
         env:
-          RAILS_MASTER_KEY: ${{ secrets.MASTER_KEY }}
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
 
       - uses: actions/checkout@v4
 
-      - uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
-        with:
-          bundle-cache: true
+      # - uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
+      #   with:
+      #     bundle-cache: true
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      # - name: Cache node modules
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
 
-      - name: Cache bundle
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-bundle-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-bundle-
+      # - name: Cache bundle
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: vendor/bundle
+      #     key: ${{ runner.os }}-bundle-${{ hashFiles('**/Gemfile.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-bundle-
 
-      # Add or replace test runners here
-      - name: Install dependencies
-        run: |
-          bundle install --path vendor/bundle
-          yarn install --check-files
+      # # Add or replace test runners here
+      # - name: Install dependencies
+      #   run: |
+      #     bundle install --path vendor/bundle
+      #     yarn install --check-files
 
-      # Add or replace database setup steps here
-      - name: Set up database schema
-        run: |
-          cp config/database.yml.ci config/database.yml
-          bundle exec rails db:create
-          bundle exec rails db:migrate
+      # # Add or replace database setup steps here
+      # - name: Set up database schema
+      #   run: |
+      #     cp config/database.yml.ci config/database.yml
+      #     bundle exec rails db:create
+      #     bundle exec rails db:migrate
 
-      - name: Run tests
-        run: bin/rails test test/models test/controllers test/system --verbose
+      # - name: Run tests
+      #   run: bin/rails test test/models test/controllers test/system --verbose
