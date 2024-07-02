@@ -32,18 +32,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # Add or replace test runners here
+      - name: Install dependencies
+        run: |
+          bundle install
+          yarn install
+
       # Add or replace database setup steps here
       - name: Set up database schema
         run: |
           cp config/database.yml.ci config/database.yml
           bundle exec rails db:create
           bundle exec rails db:migrate
-
-      # Add or replace test runners here
-      - name: Install dependencies
-        run: |
-          bundle install
-          yarn install
 
       - name: Run tests
         run: bin/rails test test/models test/controllers test/system --verbose
