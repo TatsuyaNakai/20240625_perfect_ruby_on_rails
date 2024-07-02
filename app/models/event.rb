@@ -31,12 +31,24 @@ class Event < ApplicationRecord
   validate :validate_started_at, if: -> { started_at && ended_at }
 
   # メソッド
+  searchkick language: 'japanese' # searchkick用のメソッドが追加されます
+
   def created_by?(user)
     return false unless user
 
     owner_id == user.id
   end
 
+  def search_data
+    # 戻り値がelasticsearchのインデックスに追加される情報です。
+    {
+      name: name,
+      place: place,
+      content:content,
+      owner_name: owner&.name,
+      started_at: started_at
+    }
+  end
 
   # メソッド(Private)
   private

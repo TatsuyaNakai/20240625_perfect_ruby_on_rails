@@ -9,12 +9,35 @@ services:
       - "3000:3000"
     environment:
       WEBPACKER_DEV_SERVER_HOST: webpacker
+      ELASTICSEARCH_URL: http://elasticsearch
     depends_on:
       - db
       - webpacker
+      - elasticsearch
     tty: true
     stdin_open: true
-  
+    links:
+      - elasticsearch
+
+  elasticsearch:
+    build:
+      context: .
+      dockerfile: Dockerfile_elasticsearch
+    ports:
+      - "9300:9200"
+    privileged: true
+    environment:
+      discovery.type: "single-node"
+      cluster.name: "docker-cluster"
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
   webpacker:
     build: .
     volumes:
@@ -43,4 +66,6 @@ volumes:
   db:
     driver: local
   bundle:
+    driver: local
+  esdata:
     driver: local
