@@ -3,6 +3,9 @@ require 'capybara/rails'
 require 'capybara/minitest'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  # モジュール
+  include SignInHelper
+
   Capybara.register_driver :remote_chrome do |app|
     url = 'http://selenium_chrome:4444/wd/hub'
     options = Selenium::WebDriver::Chrome::Options.new
