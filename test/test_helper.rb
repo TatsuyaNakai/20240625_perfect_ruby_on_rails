@@ -1,6 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
 require_relative "../config/environment"
-require_relative './helpers/sign_in_helper.rb'
+require_relative './support/sign_in_helper.rb'
 require "rails/test_help"
 
 class ActiveSupport::TestCase
