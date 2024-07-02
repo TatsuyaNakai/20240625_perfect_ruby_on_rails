@@ -15,7 +15,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
     env:
       RAILS_ENV: test
-      RAILS_MASTER_KEY: ${{ secrets.MASTER_KEY }}
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
 
     steps:
       - uses: actions/checkout@v4
