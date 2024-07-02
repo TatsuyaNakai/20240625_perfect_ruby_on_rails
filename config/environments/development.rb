@@ -12,6 +12,8 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports.
+  # 開発用のエラーページを表示させなくさせるには、以下をfalseとしてください。
+  # しかし、動的なエラーページはデフォルトに従うとあまり実装するべきではないので、実装は稀かもしれません。
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
