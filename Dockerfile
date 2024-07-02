@@ -8,6 +8,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y vim \
     && npm install -g yarn
 
+RUN apt-get update && \
+    apt-get install -y libvips libvips-dev
+
 RUN mkdir /myapp
 WORKDIR /myapp
 

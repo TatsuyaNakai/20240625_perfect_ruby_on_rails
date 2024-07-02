@@ -10,6 +10,7 @@ ja:
         started_at: 開始時間
         ended_at: 終了時間
         content: 内容
+        image: 画像
       ticket:
         comment: コメント
   time:

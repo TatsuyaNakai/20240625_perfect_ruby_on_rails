@@ -29,6 +29,18 @@
     <%= f.label :content %>
     <%= f.text_area :content, class: "form-control", rows: 10 %>
   </div>
+
+  <div class="form-group mb-2">
+    <%= f.label :image %>
+    <% if event.image.attached? && event.image.blob&.persisted? %>
+      <%= image_tag event.image.variant(resize_to_fit: [200, 200]), class: 'img-thumbnail d-block mb-3' %>
+    <% end %>
+    <%= f.file_field :image, class: "form-control-file" %>
+    <% if event.image.attached? && event.image.blob&.persisted? %>
+      <%= f.check_box :remove_image %>
+      <%= f.label '画像を削除する ' %>
+    <% end %>
+  </div>
   
   <%= f.submit class: "btn btn-primary" %>
 <% end %>
