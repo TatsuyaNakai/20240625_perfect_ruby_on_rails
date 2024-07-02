@@ -46,4 +46,4 @@ jobs:
           yarn install
 
       - name: Run tests
-        run: bin/rails test
+        run: bin/rails test test/models test/controllers test/system --verbose
