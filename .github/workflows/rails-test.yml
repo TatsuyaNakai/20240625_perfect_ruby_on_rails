@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Debug Rails master key
-        run: echo Rails master key sample "$RAILS_MASTER_KEY"
+        run: echo "Rails master key sample ${#RAILS_MASTER_KEY}"
       # - uses: actions/checkout@v4
 
       # - uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
