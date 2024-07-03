@@ -6,6 +6,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     services:
+      selenium_chrome:
+        image: selenium/standalone-chrome
+        ports:
+          - 4444:4444
       db:
         image: mysql:8.0
         ports:
@@ -60,4 +64,6 @@ jobs:
           bundle exec rails db:migrate
 
       - name: Run tests
+        env:
+          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
         run: bin/rails test test/models test/controllers test/system --verbose

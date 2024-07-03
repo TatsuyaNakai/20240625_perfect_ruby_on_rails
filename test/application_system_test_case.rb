@@ -7,7 +7,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include SignInHelper
 
   Capybara.register_driver :remote_chrome do |app|
-    url = 'http://selenium_chrome:4444/wd/hub'
+    url = ENV['SELENIUM_REMOTE_URL'] || 'http://selenium_chrome:4444/wd/hub'
     options = Selenium::WebDriver::Chrome::Options.new
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
