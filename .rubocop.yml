@@ -1,0 +1,32 @@
+inherit_from: .rubocop_todo.yml
+
+# git commit時にpre-hookも実装可能。以下を`.git/hooks/pre-commit`に追加する
+# 共有もできないことはないが、個人で入力する設定が増えるので微妙
+# https://qiita.com/MasaoSasaki/items/fb741b54d807a49c2817
+# ~~~~sh
+# #!/bin/sh
+
+# if git diff --cached --name-only --diff-filter=AM | grep '\.rb$'; then
+#   echo '--- bundle exec rubocop ---'
+#   git diff --cached --name-only --diff-filter=AM | grep '\.rb$' | xargs docker-compose run --rm app bundle exec rubocop --fail-level R --display-only-fail-level-offenses
+# fi
+# ~~~~
+
+require:
+  - rubocop-rails
+
+AllCops:
+  SuggestExtensions: false
+  NewCops: disable
+  Exclude:
+    - 'bin/bundle'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'lib/tasks/auto_annotate_models.rake'
+    - 'vendor/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
