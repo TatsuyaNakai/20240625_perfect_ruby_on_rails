@@ -42,6 +42,12 @@ group :development, :test do
 
   gem 'factory_bot_rails'
   gem 'rubocop-rails', require: false
+
+  # 脆弱性のあるコードを解析するgemになります。
+  # brakemanは完全ではないので、人目によるチェックが必ず必要になります。
+  # CIで実施してしまうと、CIが通らない。Errorがあってもグリーンにすると、CIで実施する必要あるのか微妙なところです。
+  # そのため、開発環境で自身が実施することが良いと思います。
+  gem 'brakeman', require: false
 end
 
 group :development do
