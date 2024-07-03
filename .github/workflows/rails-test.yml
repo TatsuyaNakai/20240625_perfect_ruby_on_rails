@@ -15,7 +15,6 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
     env:
       RAILS_ENV: test
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
 
     steps:
       - uses: actions/checkout@v4
@@ -52,9 +51,13 @@ jobs:
         run: cp config/database.yml.ci config/database.yml
 
       - name: Set up database schema
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           bundle exec rails db:create
           bundle exec rails db:migrate
 
       - name: Run tests
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: bin/rails test test/models test/controllers test/system --verbose
