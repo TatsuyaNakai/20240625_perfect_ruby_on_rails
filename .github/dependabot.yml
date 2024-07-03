@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "rails"
+        update-types: ["version-update:semver-major"]
+    allowed_updates:
+      - match:
+          update_type: "all"
+    version_requirement_updates: "off"
